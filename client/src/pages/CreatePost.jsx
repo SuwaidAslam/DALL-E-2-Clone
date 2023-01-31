@@ -35,13 +35,13 @@ const CreatePost = () => {
       finally {
         setGeneratingImg(false);
       }
-    } else{
+    } else {
       alert("Please enter a prompt")
     }
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(form.prompt && form.photo){
+    if (form.prompt && form.photo && form.name) {
       setLoading(true);
       try {
         const response = await fetch('http://localhost:8080/api/v1/post', {
@@ -55,11 +55,11 @@ const CreatePost = () => {
         navigate('/');
       } catch (error) {
         alert(error);
-      }finally{
+      } finally {
         setLoading(false);
       }
-    } else{
-      alert('Please enter a prompt and generate an image')
+    } else {
+      alert('Please enter a prompt and generate an image and Name to Share')
     }
   }
   const handleChange = (e) => {
@@ -93,7 +93,7 @@ const CreatePost = () => {
           <FormField
             labelName="Prompt"
             type="text"
-            name="promt"
+            name="prompt"
             placeholder="a painting of a fox in the style of Starry Night"
             value={form.prompt}
             handleChange={handleChange}
