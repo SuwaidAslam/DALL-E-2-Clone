@@ -2,7 +2,7 @@ import express from "express";
 import * as dotenv from 'dotenv';
 import {v2 as cloudinary} from 'cloudinary';
 
-import Post from '../mongodb/models/post.js';
+import PostSchema from '../mongodb/models/post.js';
 
 dotenv.config();
 
@@ -17,7 +17,7 @@ cloudinary.config({
 // GET ALL POSTS
 router.route('/').get(async(req, res) => {
     try {
-        const posts = await Post.find({});
+        const posts = await PostSchema.find({});
         res.status(200).json({success: true, data: posts});
     } catch (error) {
         res.status(500).json({success: false, data: error});
@@ -27,8 +27,9 @@ router.route('/').get(async(req, res) => {
 router.route('/').post(async(req, res) => {
     try {
         const {name, prompt, photo } = req.body;
+
         const photoUrl = await cloudinary.uploader.upload(photo);
-        const newPost = await Post.create({
+        const newPost = await PostSchema.create({   
             name,
             prompt,
             photo: photoUrl.url,
